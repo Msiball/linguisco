@@ -1,18 +1,30 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
-export async function connect() {
-  try {
-    await mongoose.connect(process.env.MONGO_URL!);
-    const connection = mongoose.connection;
+const MONGODB_URL = process.env.MONGO_URL!;
 
-    connection.on("connected", () => {
-      console.log("Connected to MongoDB");
-    });
-
-    connection.on("error", (error) => {
-      console.error("MongoDB connection error:", error);
-    });
-  } catch (error) {
-    console.error("Failed to connect to MongoDB", error);
-  }
+interface MongooseConn {
+  conn: Mongoose | null;
+  promise: Promise<Mongoose> | null;
 }
+
+let cached: any = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = {
+    conn: null,
+    promise: null,
+  };
+}
+
+export const connect = async () => {
+  if (cached.conn) return cached.conn;
+  cached.promise =
+    cached.promise ||
+    mongoose.connect(MONGODB_URL, {
+      dbName: "clerk-db",
+      bufferCommands: false,
+      connectTimeoutMS: 30000,
+    });
+
+  cached.conn = await cached.promise;
+};

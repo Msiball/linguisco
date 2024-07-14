@@ -8,7 +8,7 @@ export const DashboardNavbar = () => {
         <div className="flex flex-col">
           <SmallLogo />
         </div>
-        <div className="mr-5 h-100 w-100">
+        <div className="mr-5">
           <UserButton afterSignOutUrl="/" />
         </div>
       </div>

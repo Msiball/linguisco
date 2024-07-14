@@ -1,11 +1,15 @@
 import { DashboardNavbar } from "./_components/dashboard-navbar";
+import { UserButton } from "@clerk/nextjs";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-full">
-      <DashboardNavbar />
-      <div className="h-[80px] fixed inset-y-0 w-full z-50"></div>
-      <main>{children}</main>
+      <div>
+        <DashboardNavbar />
+      </div>
+      <div>
+        <main className="h-full">{children}</main>
+      </div>
     </div>
   );
 };

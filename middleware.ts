@@ -7,3 +7,7 @@ const isProtectedRoute = createRouteMatcher(["/student-dashboard(.*)"]); ///add 
 export default clerkMiddleware((auth, req) => {
   if (isProtectedRoute(req)) auth().protect();
 });
+
+export const config = {
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+};
