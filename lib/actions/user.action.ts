@@ -1,4 +1,4 @@
-"user server";
+"use server";
 
 import User from "@/app/db/models/users";
 import { connect } from "@/app/db/db";
